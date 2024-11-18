@@ -73,11 +73,9 @@ def scrape_with_selenium():
                 driver.execute_script("arguments[0].scrollIntoView(true);", product)
                 time.sleep(1)
                 
-                # Print HTML dari produk untuk debug
                 print("HTML produk:")
                 print(product.get_attribute('outerHTML'))
                 
-                # Coba berbagai selector untuk nama produk
                 name = 'N/A'
                 for selector in ['.product-title', 'h2', '.product-name', '.title']:
                     try:
@@ -87,7 +85,6 @@ def scrape_with_selenium():
                     except:
                         continue
                 
-                # Coba berbagai selector untuk harga
                 price = 'N/A'
                 for selector in ['.price', '.product-price', '.amount']:
                     try:
@@ -103,7 +100,6 @@ def scrape_with_selenium():
                 except:
                     image = 'N/A'
                 
-                # Ambil link
                 try:
                     link = product.find_element(By.TAG_NAME, 'a').get_attribute('href')
                 except:
@@ -129,7 +125,6 @@ def scrape_with_selenium():
                 print(f"Error pada produk ke-{i}: {str(e)}")
                 continue
         
-        # Simpan ke CSV
         if data:
             df = pd.DataFrame(data)
             print("\nPreview data:")
@@ -142,13 +137,11 @@ def scrape_with_selenium():
             df.to_csv(filename, index=False)
             print(f"\nBerhasil menyimpan {len(data)} produk ke {filename}")
             
-            # Buka file yang baru dibuat
             import os
             os.system(f'start excel "{filename}"')
         else:
             print("\nTidak ada data yang bisa disimpan")
         
-        # Tanya user apakah ingin menutup browser
         input("\nTekan Enter untuk menutup browser...")
             
     except Exception as e:
